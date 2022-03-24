@@ -1,4 +1,4 @@
-import time,socket,threading,datetime, json
+import time,socket,datetime,json
 
 # Set the UPD port here
 UDP_PORT = 6006
@@ -22,6 +22,7 @@ sock.bind(('', UDP_PORT))
 CRED = '\033[91m'
 CEND = '\033[0m'
 
+
 while True:
     data_raw, addr = sock.recvfrom(1024)
     data = data_raw.decode()    # My test message is encoded
@@ -35,12 +36,10 @@ while True:
             f = open(decode_list[1], 'w')                           # open or new file with the chosen file in the Max4Live patch
             rec = 1
         elif decode_list[0].startswith("BOARD") and rec == 1:   # if the first part of the list starts with "board"
-            t1 = time.time() - t0                                   # see how much time elapsed since the beginning of rec
             udp_value = int(decode_list[1])
             if udp_value >= 1:                                  # if the incoming value really represents an input
-                print(round(t1, 3), decode_list[0],decode_list[1])                # for debug purposes
+                print(decode_list[0],decode_list[1])                # for debug purposes
                 x = {                                                   # build a dict with the info from UDP
-                    "time": round(t1, 3),
                     "values": {
                         "port": decode_list[0], 
                         "value": udp_value
@@ -51,7 +50,7 @@ while True:
             rec = 0
             json_dump = json.dumps(y, sort_keys=True, ensure_ascii=False) #transfer the list of dicts into a json format
             f.write(json_dump)                                      # write it to the file opened in "rec"
-            f.close()                                               # close the file            
+            f.close()                                               # close the file  
             print("done writing file")          
             print(decode_list[0],decode_list[1])                    # debug purposes
         elif decode_list[0].startswith("exit"):                 # if the list starts with "exit"
