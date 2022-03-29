@@ -1,6 +1,5 @@
 import threading, time, socket, datetime, json
-import board,busio,adafruit_pca9685,pwmio,time
-
+from gpiozero import PWMOutputDevice
 
 # Set the to be loaded slots. Has to be full paths or else it won't start on boot! 
 play1 = "/home/pi/Desktop/whos_afraid/slot_1.json"
@@ -19,20 +18,9 @@ DEBUG = 1
 data = ''   # Declare an empty variable
 playing = False
 stop_player = False
+pin = "BOARD37"
+pwm = PWMOutputDevice(pin)
 
-i2c = busio.I2C(board.SCL, board.SDA)
-pca = adafruit_pca9685.PCA9685(i2c)
-
-pca.frequency = 60
-
-inv_1 = pca.channels[9]
-inv_2 = pca.channels[10]
-inv_3 = pwmio.PWMOut(board.D5, frequency=60, duty_cycle=0)
-inv_4 = pca.channels[13]
-inv_5 = pca.channels[14]
-inv_6 = pca.channels[15]
-
-inverters = [inv_1, inv_2, inv_3, inv_4, inv_5, inv_6]
 
 # UDP setup for listening
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
@@ -82,6 +70,8 @@ except:
 def player (dict, last_entry, slot, stop):
     global playing
     global stop_player
+    global pin
+    global pwm
     playing = True
     stop_player = False
     print(f"last_entry from {slot}: {last_entry}")
@@ -91,8 +81,12 @@ def player (dict, last_entry, slot, stop):
         values = dict.get(round(t1, 5), None)
         if values:
             print(f"{datetime.datetime.now().time()} time: {round(t1, 5)}   port: {values['port']}  value: {values['value']}")
-            print("index", values['port'])
-            inverters[0].duty_cycle = values['value']
+            if pin == values['port']:
+                pwm.value = values['value']
+            else:
+                pin = values['port']
+                pwm = PWMOutputDevice(pin)
+                pwm.value = values['value']
         if t1 >= last_entry:
             print(f"{datetime.datetime.now().time()} done playing {slot}")
             t0 = 0

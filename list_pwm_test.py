@@ -16,6 +16,9 @@ inv_6 = pca.channels[15]
 
 inverter = [inv_1, inv_2, inv_3, inv_4, inv_5, inv_6]
 
+print(type(inverter[0]))
+print(inverter.index("inv_1"))
+
 while True:
     inverter[0].duty_cycle = 30000
     print("30000")

@@ -36,16 +36,17 @@ while True:
             f = open(decode_list[1], 'w')                           # open or new file with the chosen file in the Max4Live patch
             rec = 1
         elif decode_list[0].startswith("BOARD") and rec == 1:   # if the first part of the list starts with "board"
-            udp_value = int(decode_list[1])
-            if udp_value >= 1:                                  # if the incoming value really represents an input
-                print(decode_list[0],decode_list[1])                # for debug purposes
-                x = {                                                   # build a dict with the info from UDP
-                    "values": {
-                        "port": decode_list[0], 
-                        "value": udp_value
-                        }
+            t1 = time.time() - t0
+            udp_value = float(decode_list[1])
+            print(decode_list[0],decode_list[1])                # for debug purposes
+            x = {                                                   # build a dict with the info from UDP
+                "time": round(t1, 3),
+                "values": {
+                    "port": decode_list[0], 
+                    "value": udp_value
                     }
-                y.append(x)                                             # append the dict to the list 
+                }
+            y.append(x)                                             # append the dict to the list 
         elif decode_list[0].startswith("stop"):                 # if the list starts with "stop"
             rec = 0
             json_dump = json.dumps(y, sort_keys=True, ensure_ascii=False) #transfer the list of dicts into a json format
