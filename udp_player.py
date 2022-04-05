@@ -1,4 +1,4 @@
-import threading, time, socket, datetime, json
+import threading, time, socket, datetime, json, copy
 from gpiozero import PWMOutputDevice
 
 # Set the to be loaded slots. Has to be full paths or else it won't start on boot! 
@@ -9,6 +9,13 @@ UDP_PORT = 6006
 # Set the debug level, 0 = no debug messages, 1 = UDP messages, 2 = inverter messages, 3 = both
 DEBUG = 1
 
+inv_1 = PWMOutputDevice("BOARD37")
+inv_2 = PWMOutputDevice("BOARD35")
+inv_3 = PWMOutputDevice("BOARD33")
+inv_4 = PWMOutputDevice("BOARD31")
+inv_5 = PWMOutputDevice("BOARD29")
+inv_6 = PWMOutputDevice("BOARD27")
+
 ##
 ## AFTER THIS IS CODE. 
 ##
@@ -18,8 +25,6 @@ DEBUG = 1
 data = ''   # Declare an empty variable
 playing = False
 stop_player = False
-pin = "BOARD37"
-pwm = PWMOutputDevice(pin)
 
 
 # UDP setup for listening
@@ -35,6 +40,8 @@ print(f"opening {play1}")
 f = open(play1, "r")
 recording = json.loads(f.read())
 rec_dict1 = {entry["time"]:entry["values"] for entry in recording}
+if DEBUG == 2:
+    print(rec_dict1) 
 last_time1 = list(recording)[-1]["time"]
 print(f"{play1} is playing for {last_time1} seconds")
 
@@ -74,19 +81,22 @@ def player (dict, last_entry, slot, stop):
     global pwm
     playing = True
     stop_player = False
+    # dict_copy = copy.deepcopy(dict)
     print(f"last_entry from {slot}: {last_entry}")
     t0 = time.time()
     while True:
         t1 = time.time() - t0
-        values = dict.get(round(t1, 5), None)
+        # print ('time: ', t1)
+        t_check = round(t1, 3)
+        values = dict.get(t_check, None)
         if values:
-            print(f"{datetime.datetime.now().time()} time: {round(t1, 5)}   port: {values['port']}  value: {values['value']}")
-            if pin == values['port']:
-                pwm.value = values['value']
-            else:
-                pin = values['port']
-                pwm = PWMOutputDevice(pin)
-                pwm.value = values['value']
+            print(f"{datetime.datetime.now().time()} time: {t_check} value: {values['value']}")
+            inv_1.value = values['value'][0]
+            inv_2.value = values['value'][1]
+            inv_3.value = values['value'][2]
+            inv_4.value = values['value'][3]
+            inv_5.value = values['value'][4]
+            inv_6.value = values['value'][5]
         if t1 >= last_entry:
             print(f"{datetime.datetime.now().time()} done playing {slot}")
             t0 = 0
@@ -100,7 +110,8 @@ def player (dict, last_entry, slot, stop):
 # Check if there's something playing and if not, starts a player thread
 while True:
     if playing is False:
-        threading.Thread(target=player,
-                             args=(rec_dict1, last_time1, play1, stop_player),
-                             kwargs={},
-                        ).start()
+        # threading.Thread(target=player,
+        #                      args=(rec_dict1, last_time1, play1, stop_player),
+        #                      kwargs={},
+        #                 ).start()
+        player(rec_dict1, last_time1, play1, stop_player)
