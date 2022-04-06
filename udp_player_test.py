@@ -7,7 +7,7 @@ play1 = "/home/pi/Desktop/whos_afraid/slot_1.json"
 # Set the UPD port here
 UDP_PORT = 6006
 # Set the debug level, 0 = no debug messages, 1 = UDP messages, 2 = inverter messages, 3 = both
-DEBUG = 1
+DEBUG = 2
 
 inv_1 = PWMOutputDevice("BOARD37")
 inv_2 = PWMOutputDevice("BOARD35")
