@@ -90,13 +90,13 @@ def player (dict, last_entry, slot, stop):
         t_check = round(t1, 3)
         values = dict.get(t_check, None)
         if values:
-            print(f"{datetime.datetime.now().time()} time: {t_check} value: {values['value']}")
-            inv_1.value = values['value'][0]
-            inv_2.value = values['value'][1]
-            inv_3.value = values['value'][2]
-            inv_4.value = values['value'][3]
-            inv_5.value = values['value'][4]
-            inv_6.value = values['value'][5]
+            print(f"{datetime.datetime.now().time()} time: {t_check} value: {values}")
+            inv_1.value = values[0]
+            inv_2.value = values[1]
+            inv_3.value = values[2]
+            inv_4.value = values[3]
+            inv_5.value = values[4]
+            inv_6.value = values[5]
         if t1 >= last_entry:
             print(f"{datetime.datetime.now().time()} done playing {slot}")
             t0 = 0
