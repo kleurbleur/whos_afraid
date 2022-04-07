@@ -1,4 +1,5 @@
 import time,socket,datetime,json
+from threading import Event, Thread
 from gpiozero import PWMOutputDevice
 
 # Set the to be loaded slots. Has to be full paths or else it won't start on boot! 
@@ -8,7 +9,7 @@ play1 = "/home/pi/Desktop/whos_afraid/slot_2.json"
 # Set the UPD port here
 UDP_PORT = 6006
 # Set the debug level, 0 = no debug messages, 1 = UDP messages, 2 = inverter messages, 3 = both
-DEBUG = 1
+DEBUG = 3
 
 # Set the gpio out and in. 
 # Check pinout.xyz for the black pin numbers aka the board numbers. 
@@ -22,9 +23,13 @@ inv_6 = PWMOutputDevice("BOARD27")
 
 
 # Declare variables
-data = '' # empty var for incoming data
-y = []
-rec = 0
+data = ''           # empty var for incoming data
+y = []              # list for the recording to json
+rec = 0             # to check for if recording is in progress
+global exit         # make the exit var global
+exit = Event()      # link exit to the Event class
+playing = False     # to check if something is playing
+
 
 
 
@@ -36,9 +41,6 @@ sock.bind(('', UDP_PORT))
 CRED = '\033[91m'
 CEND = '\033[0m'
 
-
-# Declare variables 
-playing = False
 
 
 #load composition 1
@@ -59,7 +61,7 @@ def player (dict, last_entry, slot):
     playing = True
     print(f"{datetime.datetime.now().time()}: Starting composition from {slot} and will be playing for: {last_entry}")
     t0 = time.time()
-    while True:
+    while not exit.is_set():
         t1 = time.time() - t0
         t_check = round(t1, 3)
         values = dict.get(t_check, None)
@@ -78,6 +80,7 @@ def player (dict, last_entry, slot):
             t1 = 0
             playing = False
             return
+        exit.wait(0.0001)
 
 
 
@@ -88,19 +91,26 @@ while True:
         print(f"{CRED}{datetime.datetime.now().time()} UDP MESSAGE: {data}{CEND}")    
     if data:                                                 # only do something when there's data
         decode_list = data.split()                              # byte decode the incoming list and split in two
-        if decode_list[0].startswith("REC") and rec == 0:                    # if the first part of the list starts with "rec"
+        if decode_list[0].startswith("PLAY") and not playing:   # if the first part of the list starts with "PLAY" and we're not playing already
+            exit.clear()                                            # clear the Event() so the while loop becomes True
+            try:
+                Thread(target=player(rec_dict1, last_time1, play1)).start()                       # start the player thread
+            except:
+                print ("Error: unable to start runner thread. Exit.")
+                quit()
+        if decode_list[0].startswith("REC") and not rec:        # if the first part of the list starts with "rec" and not recording already
             print(decode_list[0],decode_list[1])                    # for debug purposes
             t0 = time.time()                                        # start the timer
             f = open(decode_list[1], 'w')                           # open or new file with the chosen file in the Max4Live patch
             rec = 1
-        elif decode_list[0].startswith("VALUES"):   # if the first part of the list starts with "VALUES"
-            inv_1.value = float(decode_list[1])
+        elif decode_list[0].startswith("VALUES"):               # if the first part of the list starts with "VALUES"
+            inv_1.value = float(decode_list[1])                     # send the values to the right gpio pin
             inv_2.value = float(decode_list[2])
             inv_3.value = float(decode_list[3])
             inv_4.value = float(decode_list[4])
             inv_5.value = float(decode_list[5])
             inv_6.value = float(decode_list[6])    
-            if rec:
+            if rec:                                                 # if recording we're also writing all the values to a dict
                 t1 = time.time() - t0
                 x = {                                                   # build a dict with the info from UDP
                     "time": round(t1, 3),
@@ -113,14 +123,21 @@ while True:
                             float(decode_list[6])
                         ]           
                     }
-                y.append(x)                                         # append the dict to the list 
-        elif decode_list[0].startswith("stop"):                 # if the list starts with "stop"
-            rec = 0
-            json_dump = json.dumps(y, sort_keys=True, ensure_ascii=False) #transfer the list of dicts into a json format
-            f.write(json_dump)                                      # write it to the file opened in "rec"
-            f.close()                                               # close the file  
-            print("done writing file")          
-            print(decode_list[0],decode_list[1])                    # debug purposes
-        elif decode_list[0].startswith("exit"):                 # if the list starts with "exit"
+                y.append(x)                                             # append the dict to the list 
+        elif decode_list[0].startswith("STOP"):                 # if the list starts with "stop"
+            if rec:                                                 # if we're recording then write everything to a json file
+                rec = 0                                             # make sure to be able to record again
+                json_dump = json.dumps(y, sort_keys=True, ensure_ascii=False) #transfer the list of dicts into a json format
+                f.write(json_dump)                                  # write it to the file opened in "rec"
+                f.close()                                           # close the file  
+                print("done writing file")          
+                print(decode_list[0],decode_list[1])                # debug purposes
+            elif playing:                                         # if we're playing then stop the player
+                exit.set()                                          # set the while loop to False
+                print(f"{datetime.datetime.now().time()} stopped playing {play1}")
+                t0 = 0
+                t1 = 0
+                playing = False
+        elif decode_list[0].startswith("EXIT"):                 # if the list starts with "exit"
             sock.close()                                            # close the socket
             exit()     
