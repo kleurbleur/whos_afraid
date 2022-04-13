@@ -67,13 +67,13 @@ while True:
                         ]           
                     }
                 y.append(x)                                         # append the dict to the list 
-        elif decode_list[0].startswith("stop"):                 # if the list starts with "stop"
+        elif decode_list[0].startswith("STOP"):                 # if the list starts with "stop"
             rec = 0
             json_dump = json.dumps(y, sort_keys=True, ensure_ascii=False) #transfer the list of dicts into a json format
             f.write(json_dump)                                      # write it to the file opened in "rec"
             f.close()                                               # close the file  
             print("done writing file")          
-            print(decode_list[0],decode_list[1])                    # debug purposes
+            # print(decode_list[0],decode_list[1])                    # debug purposes
         elif decode_list[0].startswith("exit"):                 # if the list starts with "exit"
             sock.close()                                            # close the socket
             exit()     
