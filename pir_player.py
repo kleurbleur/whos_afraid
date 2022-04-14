@@ -3,24 +3,36 @@ from gpiozero import PWMOutputDevice, DigitalInputDevice
 
 # Set the to be loaded slots. 
 # Has to be full paths or else it won't start on boot! 
-play1 = "/home/pi/Desktop/whos_afraid/slot_2.json"
+play1 = "/home/pi/Desktop/whos_afraid/slot_1.json"
 
 
 # Set the debug level
 # 0 = no debug messages, 1 = PIR sensor, 2 = inverter messages, 3 = both
-DEBUG = 3
+DEBUG = 0
 
 
 # Set the gpio out and in. 
 # Check pinout.xyz for the black pin numbers aka the board numbers. 
 # BCM numbering is also possible and are usable as integers.  
 pir = DigitalInputDevice("BOARD7")
-inv_1 = PWMOutputDevice("BOARD37")
-inv_2 = PWMOutputDevice("BOARD35")
-inv_3 = PWMOutputDevice("BOARD33")
-inv_4 = PWMOutputDevice("BOARD31")
-inv_5 = PWMOutputDevice("BOARD29")
-inv_6 = PWMOutputDevice("BOARD27")
+inv_1 = PWMOutputDevice("BOARD8")
+inv_2 = PWMOutputDevice("BOARD10")
+inv_3 = PWMOutputDevice("BOARD12")
+inv_4 = PWMOutputDevice("BOARD16")
+inv_5 = PWMOutputDevice("BOARD18")
+inv_6 = PWMOutputDevice("BOARD22")
+inv_7 = PWMOutputDevice("BOARD24")
+inv_8 = PWMOutputDevice("BOARD26")
+inv_9 = PWMOutputDevice("BOARD32")
+inv_10 = PWMOutputDevice("BOARD36")
+inv_11 = PWMOutputDevice("BOARD38")
+inv_12 = PWMOutputDevice("BOARD40")
+inv_13 = PWMOutputDevice("BOARD19")
+inv_14 = PWMOutputDevice("BOARD21")
+inv_15 = PWMOutputDevice("BOARD23")
+inv_16 = PWMOutputDevice("BOARD29")
+inv_17 = PWMOutputDevice("BOARD31")
+inv_18 = PWMOutputDevice("BOARD33")
 
 
 
@@ -64,6 +76,18 @@ def player (dict, last_entry, slot):
             inv_4.value = values[3]
             inv_5.value = values[4]
             inv_6.value = values[5]
+            inv_7.value = values[6]
+            inv_8.value = values[7]
+            inv_9.value = values[8]
+            inv_10.value = values[9]
+            inv_11.value = values[10]
+            inv_12.value = values[11]
+            inv_13.value = values[12]
+            inv_14.value = values[13]
+            inv_15.value = values[14]
+            inv_16.value = values[15]
+            inv_17.value = values[16]
+            inv_18.value = values[17]                        
         if t1 >= last_entry:
             print(f"{datetime.datetime.now().time()} done playing {slot}")
             t0 = 0

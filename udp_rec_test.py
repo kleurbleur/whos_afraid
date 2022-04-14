@@ -10,12 +10,24 @@ DEBUG = 1
 # Set the gpio out and in. 
 # Check pinout.xyz for the black pin numbers aka the board numbers. 
 # BCM numbering is also possible and are usable as integers.  
-inv_1 = PWMOutputDevice("BOARD37")
-inv_2 = PWMOutputDevice("BOARD35")
-inv_3 = PWMOutputDevice("BOARD33")
-inv_4 = PWMOutputDevice("BOARD31")
-inv_5 = PWMOutputDevice("BOARD29")
-inv_6 = PWMOutputDevice("BOARD27")
+inv_1 = PWMOutputDevice("BOARD8")
+inv_2 = PWMOutputDevice("BOARD10")
+inv_3 = PWMOutputDevice("BOARD12")
+inv_4 = PWMOutputDevice("BOARD16")
+inv_5 = PWMOutputDevice("BOARD18")
+inv_6 = PWMOutputDevice("BOARD22")
+inv_7 = PWMOutputDevice("BOARD24")
+inv_8 = PWMOutputDevice("BOARD26")
+inv_9 = PWMOutputDevice("BOARD32")
+inv_10 = PWMOutputDevice("BOARD36")
+inv_11 = PWMOutputDevice("BOARD38")
+inv_12 = PWMOutputDevice("BOARD40")
+inv_13 = PWMOutputDevice("BOARD19")
+inv_14 = PWMOutputDevice("BOARD21")
+inv_15 = PWMOutputDevice("BOARD23")
+inv_16 = PWMOutputDevice("BOARD29")
+inv_17 = PWMOutputDevice("BOARD31")
+inv_18 = PWMOutputDevice("BOARD33")
 
 
 # Declare variables
@@ -53,6 +65,18 @@ while True:
             inv_4.value = float(decode_list[4])
             inv_5.value = float(decode_list[5])
             inv_6.value = float(decode_list[6])    
+            inv_7.value = float(decode_list[7])
+            inv_8.value = float(decode_list[8])
+            inv_9.value = float(decode_list[9])
+            inv_10.value = float(decode_list[10])
+            inv_11.value = float(decode_list[11])
+            inv_12.value = float(decode_list[12])  
+            inv_13.value = float(decode_list[13])
+            inv_14.value = float(decode_list[14])
+            inv_15.value = float(decode_list[15])
+            inv_16.value = float(decode_list[16])
+            inv_17.value = float(decode_list[17])
+            inv_18.value = float(decode_list[18])  
             if rec:
                 t1 = time.time() - t0
                 x = {                                                   # build a dict with the info from UDP
@@ -63,7 +87,19 @@ while True:
                             float(decode_list[3]),
                             float(decode_list[4]),
                             float(decode_list[5]),
-                            float(decode_list[6])
+                            float(decode_list[6]),
+                            float(decode_list[7]),
+                            float(decode_list[8]),
+                            float(decode_list[9]),
+                            float(decode_list[10]),
+                            float(decode_list[11]),
+                            float(decode_list[12]),
+                            float(decode_list[13]),
+                            float(decode_list[14]),
+                            float(decode_list[15]),
+                            float(decode_list[16]),
+                            float(decode_list[17]),
+                            float(decode_list[18])                                                        
                         ]           
                     }
                 y.append(x)                                         # append the dict to the list 
