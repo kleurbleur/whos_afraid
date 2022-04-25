@@ -1,9 +1,12 @@
 // Program for Zoro Feigl where there is control over the power and direction of the inverter. 
+// Written by Mark Ridder, please contact me at mark@kleurbleur.nl before altering the code or reusing it for another project. 
+// 
 // 
 // Setup needs an optocoupler with 3ch per inverter where one of the channels is connected to COM:
-//    X1 = run
-//    X4 = fwd
-//    X5 = reverse 
+//    X1/blue = run
+//    X4/orange = fwd
+//    X5/green = rev 
+//    COM/white = gnd
 // Setup in inverter:
 //    P11 on 2
 //    P50 on 1
@@ -28,6 +31,7 @@
 #define inv_4_rev_pin 13
 
 // define vars
+unsigned long SEC = 1000;
 bool start_timeline_on = true;
 bool inv_1_pwr_on;
 bool inv_1_fwd_on;
@@ -48,13 +52,13 @@ extern volatile unsigned long timer0_millis;
 // define functions
 
 // only exists for possible resetting of pins and to signal the start of the timeline over serial
-void start_timeline(int t, bool start_timeline_on) {
+void start_timeline(unsigned long t, bool start_timeline_on) {
   if (millis() == t && start_timeline_on == true) {
     Serial.println("START");
   }
 }
 // inverter one functions
-void inv_1_pwr(int t, bool on_off) {
+void inv_1_pwr(unsigned long t, bool on_off) {
   if (millis() == t) {
     if (on_off == true && inv_1_pwr_on == false) {
       Serial.println("inv_1_pwr HIGH");
@@ -68,7 +72,7 @@ void inv_1_pwr(int t, bool on_off) {
     }
   }  
 }
-void inv_1_fwd(int t, bool on_off) {
+void inv_1_fwd(unsigned long t, bool on_off) {
   if (millis() == t) {
     if (on_off == true && inv_1_fwd_on == false) {
       Serial.println("inv_1_fwd HIGH");
@@ -82,7 +86,7 @@ void inv_1_fwd(int t, bool on_off) {
     }
   }
 }
-void inv_1_rev(int t, bool on_off) {
+void inv_1_rev(unsigned long t, bool on_off) {
   if (millis() == t) {
     if (on_off == true && inv_1_rev_on == false) {
       Serial.println("inv_1_rev HIGH");
@@ -97,7 +101,7 @@ void inv_1_rev(int t, bool on_off) {
   }
 }
 // inverter two functions
-void inv_2_pwr(int t, bool on_off) {
+void inv_2_pwr(unsigned long t, bool on_off) {
   if (millis() == t) {
     if (on_off == true && inv_2_pwr_on == false) {
       Serial.println("inv_2_pwr HIGH");
@@ -111,7 +115,7 @@ void inv_2_pwr(int t, bool on_off) {
     }
   }  
 }
-void inv_2_fwd(int t, bool on_off) {
+void inv_2_fwd(unsigned long t, bool on_off) {
   if (millis() == t) {
     if (on_off == true  && inv_2_fwd_on == false) {
       Serial.println("inv_2_fwd HIGH");
@@ -125,7 +129,7 @@ void inv_2_fwd(int t, bool on_off) {
     }
   }
 }
-void inv_2_rev(int t, bool on_off) {
+void inv_2_rev(unsigned long t, bool on_off) {
   if (millis() == t) {
     if (on_off == true  && inv_2_rev_on == false) {
       Serial.println("inv_2_rev HIGH");
@@ -140,7 +144,7 @@ void inv_2_rev(int t, bool on_off) {
   }
 }
 // inverter three functions
-void inv_3_pwr(int t, bool on_off) {
+void inv_3_pwr(unsigned long t, bool on_off) {
   if (millis() == t) {
     if (on_off == true && inv_3_pwr_on == false) {
       Serial.println("inv_3_pwr HIGH");
@@ -154,7 +158,7 @@ void inv_3_pwr(int t, bool on_off) {
     }
   }  
 }
-void inv_3_fwd(int t, bool on_off) {
+void inv_3_fwd(unsigned long t, bool on_off) {
   if (millis() == t) {
     if (on_off == true && inv_3_fwd_on == false) {
       Serial.println("inv_3_fwd HIGH");
@@ -168,7 +172,7 @@ void inv_3_fwd(int t, bool on_off) {
     }
   }
 }
-void inv_3_rev(int t, bool on_off) {
+void inv_3_rev(unsigned long t, bool on_off) {
   if (millis() == t) {
     if (on_off == true && inv_3_rev_on == false) {
       Serial.println("inv_3_rev HIGH");
@@ -183,7 +187,7 @@ void inv_3_rev(int t, bool on_off) {
   }
 }
 // inverter four functions
-void inv_4_pwr(int t, bool on_off) {
+void inv_4_pwr(unsigned long t, bool on_off) {
   if (millis() == t) {
     if (on_off == true && inv_4_pwr_on == false) {
       Serial.println("inv_4_pwr HIGH");
@@ -197,7 +201,7 @@ void inv_4_pwr(int t, bool on_off) {
     }
   }  
 }
-void inv_4_fwd(int t, bool on_off) {
+void inv_4_fwd(unsigned long t, bool on_off) {
   if (millis() == t) {
     if (on_off == true && inv_4_fwd_on == false) {
       Serial.println("inv_4_fwd HIGH");
@@ -211,7 +215,7 @@ void inv_4_fwd(int t, bool on_off) {
     }
   }
 }
-void inv_4_rev(int t, bool on_off) {
+void inv_4_rev(unsigned long t, bool on_off) {
   if (millis() == t) {
     if (on_off == true && inv_4_rev_on == false) {
       Serial.println("inv_4_rev HIGH");
@@ -227,7 +231,7 @@ void inv_4_rev(int t, bool on_off) {
 }
 
 
-void end_timeline(int t) {
+void end_timeline(unsigned long t) {
   if (millis() == t && end_timeline_on == true){
     Serial.println("END");
     noInterrupts ();
@@ -239,6 +243,10 @@ void end_timeline(int t) {
 
 void setup () {
   Serial.begin(115200);
+
+  delay(5000);
+  
+  Serial.println("Program written by Mark Ridder for Zoro Feigl's exhibition at the Stedelijk Museum Schiedam. 20/04/22");
 
   pinMode(inv_1_pwr_pin, OUTPUT);
   pinMode(inv_1_fwd_pin, OUTPUT);
@@ -252,21 +260,39 @@ void setup () {
   pinMode(inv_4_pwr_pin, OUTPUT);
   pinMode(inv_4_fwd_pin, OUTPUT);
   pinMode(inv_4_rev_pin, OUTPUT);
+
+  delay(1000);
+  Serial.println("Initial start");
+  noInterrupts ();
+  timer0_millis = 0;
+  interrupts ();
 }
 
 
 void loop () {
 
-  start_timeline(0);
+  start_timeline(0, true);
 
-  inv_1_pwr(3000, true); // activate the first inverter at 3000ms 
-  inv_1_fwd(3000, true); // true or false in means that either that function is switched on or off
-  inv_1_fwd(4000, false);
-  inv_1_rev(4000, true);
-  inv_1_rev(6000, false);
-  inv_1_pwr(6000, false); // deactive the first inverter at 6000ms
+  inv_1_fwd(0*SEC, true);       // inverter_number 1_forward - true or false  means that either this is switched on or off
+  inv_1_fwd(20*SEC, false);     // timing works with seconds
+  inv_1_rev(20*SEC, true); 
+  inv_1_rev(40*SEC, false);
+//
+  inv_2_fwd(0*SEC, true); 
+  inv_2_fwd(20*SEC, false);
+  inv_2_rev(20*SEC, true);
+  inv_2_rev(40*SEC, false);
+//
+  inv_3_fwd(0*SEC, true); 
+  inv_3_fwd(20*SEC, false);
+  inv_3_rev(20*SEC, true);
+  inv_3_rev(40*SEC, false);
+//
+  inv_4_fwd(0*SEC, true); 
+  inv_4_fwd(20*SEC, false);
+  inv_4_rev(20*SEC, true);
+  inv_4_rev(40*SEC, false);
   
-  
-  end_timeline(9000);
+  end_timeline(45*SEC); //
 
 }
