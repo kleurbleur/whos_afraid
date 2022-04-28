@@ -16,7 +16,7 @@ DEBUG = 0
 # BCM numbering are usable as integers.  
 inv_1 = PWMOutputDevice(7)
 inv_2 = PWMOutputDevice(8)
-inv_3 = PWMOutputDevice(2)
+inv_3 = PWMOutputDevice(25)
 inv_4 = PWMOutputDevice(24)
 inv_5 = PWMOutputDevice(23)
 inv_6 = PWMOutputDevice(18)

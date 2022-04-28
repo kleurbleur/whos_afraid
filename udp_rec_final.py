@@ -12,7 +12,7 @@ DEBUG = 1
 # BCM numbering are usable as integers.  
 inv_1 = PWMOutputDevice(7)
 inv_2 = PWMOutputDevice(8)
-inv_3 = PWMOutputDevice(2)
+inv_3 = PWMOutputDevice(25)
 inv_4 = PWMOutputDevice(24)
 inv_5 = PWMOutputDevice(23)
 inv_6 = PWMOutputDevice(18)
@@ -109,13 +109,51 @@ while True:
                         ]           
                     }
                 y.append(x)                                         # append the dict to the list 
-        elif decode_list[0].startswith("STOP"):                 # if the list starts with "stop"
+        elif decode_list[0].startswith("ST_RC"):                 # if the list starts with "ST_RC"
+            inv_1.value = 0
+            inv_2.value = 0
+            inv_3.value = 0
+            inv_4.value = 0
+            inv_5.value = 0
+            inv_6.value = 0    
+            inv_7.value = 0
+            inv_8.value = 0
+            inv_9.value = 0
+            inv_10.value = 0
+            inv_11.value = 0
+            inv_12.value = 0  
+            inv_13.value = 0
+            inv_14.value = 0
+            inv_15.value = 0
+            inv_16.value = 0
+            inv_17.value = 0
+            inv_18.value = 0    
             rec = 0
             json_dump = json.dumps(y, sort_keys=True, ensure_ascii=False) #transfer the list of dicts into a json format
             f.write(json_dump)                                      # write it to the file opened in "rec"
             f.close()                                               # close the file  
             print("done writing file")          
-            sock.sendto(bytes("STOPPED", "utf-8"), (addr[0], UDP_PORT))
+            sock.sendto(bytes("STOPPED RECODING", "utf-8"), (addr[0], UDP_PORT))
+        elif decode_list[0].startswith("STOP"):                 # if the list starts with "STOP"
+            print("stopping the inverters")                      
+            inv_1.value = 0
+            inv_2.value = 0
+            inv_3.value = 0
+            inv_4.value = 0
+            inv_5.value = 0
+            inv_6.value = 0    
+            inv_7.value = 0
+            inv_8.value = 0
+            inv_9.value = 0
+            inv_10.value = 0
+            inv_11.value = 0
+            inv_12.value = 0  
+            inv_13.value = 0
+            inv_14.value = 0
+            inv_15.value = 0
+            inv_16.value = 0
+            inv_17.value = 0
+            inv_18.value = 0              
             # print(decode_list[0],decode_list[1])                    # debug purposes
         elif decode_list[0].startswith("exit"):                 # if the list starts with "exit"
             sock.close()                                            # close the socket

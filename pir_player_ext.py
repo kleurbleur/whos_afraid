@@ -8,7 +8,7 @@ DEBUG = 1
 # Set the gpio out and in. 
 # Check pinout.xyz for the black pin numbers aka the board numbers. 
 # BCM numbering is also possible and are usable as integers.  
-pir = DigitalInputDevice("BOARD7")
+pir = DigitalInputDevice(26)
 
 #set the variables
 player_slow_playing = False 
