@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 5.0, 54.0, 1326.0, 997.0 ],
+		"rect" : [ 0.0, 52.0, 1680.0, 997.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -479,7 +479,6 @@
 						"style" : "",
 						"subpatcher_template" : "",
 						"assistshowspatchername" : 0,
-						"visible" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
 									"id" : "obj-50",
@@ -499,7 +498,6 @@
 									"numinlets" : 1,
 									"numoutlets" : 0,
 									"patching_rect" : [ 726.5, 404.0, 62.0, 33.0 ],
-									"presentation_linecount" : 2,
 									"text" : "stop the inverters"
 								}
 
@@ -512,7 +510,6 @@
 									"numinlets" : 1,
 									"numoutlets" : 0,
 									"patching_rect" : [ 478.0, 398.5, 62.0, 33.0 ],
-									"presentation_linecount" : 4,
 									"text" : "stop recording"
 								}
 
@@ -2121,7 +2118,6 @@
 			}
 , 			{
 				"box" : 				{
-					"autorestore" : "whose_afraid_slow.json",
 					"id" : "obj-93",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
@@ -2153,7 +2149,7 @@
 						"loop" : [ 0 ],
 						"minimum_value" : [ 0.0 ],
 						"project_time" : [ 400 ],
-						"rec_slot" : [ 1 ],
+						"rec_slot" : [ 0 ],
 						"timeline" : [ 0 ],
 						"udp_port" : [ 6006 ]
 					}
@@ -2682,7 +2678,6 @@
 									"numinlets" : 1,
 									"numoutlets" : 0,
 									"patching_rect" : [ 156.0, 367.5, 152.0, 60.0 ],
-									"presentation_linecount" : 6,
 									"text" : "different stop send/recieve for stopping the inverters otherwise there will be a deathloop"
 								}
 
@@ -4046,7 +4041,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 2.5, 437.0, 58.0, 22.0 ],
+					"patching_rect" : [ -1.270833333333258, 417.0, 58.0, 22.0 ],
 					"text" : "loadbang"
 				}
 
@@ -5425,14 +5420,14 @@
  ],
 		"dependency_cache" : [ 			{
 				"name" : "function_bpatcher_v3.maxpat",
-				"bootpath" : "~/Projecten Kleurbleur/2020/Zoro Feigl/Who's Afraid/Software/Max",
+				"bootpath" : "~/Projecten Kleurbleur/2020/Zoro Feigl/Who's Afraid/Software/Github/whos_afraid/Max",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "loop.png",
-				"bootpath" : "~/Projecten Kleurbleur/2020/Zoro Feigl/Who's Afraid/Software/Max",
+				"bootpath" : "~/Projecten Kleurbleur/2020/Zoro Feigl/Who's Afraid/Software/Github/whos_afraid/Max",
 				"patcherrelativepath" : ".",
 				"type" : "PNG",
 				"implicit" : 1
@@ -5443,30 +5438,23 @@
 			}
 , 			{
 				"name" : "play-pause.png",
-				"bootpath" : "~/Projecten Kleurbleur/2020/Zoro Feigl/Who's Afraid/Software/Max",
+				"bootpath" : "~/Projecten Kleurbleur/2020/Zoro Feigl/Who's Afraid/Software/Github/whos_afraid/Max",
 				"patcherrelativepath" : ".",
 				"type" : "PNG",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "stop.png",
-				"bootpath" : "~/Projecten Kleurbleur/2020/Zoro Feigl/Who's Afraid/Software/Max",
+				"bootpath" : "~/Projecten Kleurbleur/2020/Zoro Feigl/Who's Afraid/Software/Github/whos_afraid/Max",
 				"patcherrelativepath" : ".",
 				"type" : "PNG",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "trash.png",
-				"bootpath" : "~/Projecten Kleurbleur/2020/Zoro Feigl/Who's Afraid/Software/Max",
+				"bootpath" : "~/Projecten Kleurbleur/2020/Zoro Feigl/Who's Afraid/Software/Github/whos_afraid/Max",
 				"patcherrelativepath" : ".",
 				"type" : "PNG",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "whose_afraid_slow.json",
-				"bootpath" : "~/Projecten Kleurbleur/2020/Zoro Feigl/Who's Afraid/Software/Max",
-				"patcherrelativepath" : ".",
-				"type" : "JSON",
 				"implicit" : 1
 			}
  ],
