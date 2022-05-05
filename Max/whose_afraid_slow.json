@@ -1,0 +1,60 @@
+{
+	"pattrstorage" : 	{
+		"name" : "whose_afraid",
+		"slots" : 		{
+			"1" : 			{
+				"id" : 1,
+				"data" : 				{
+					"ip_address" : [ "192.168.178.49" ],
+					"loop" : [ 0 ],
+					"minimum_value" : [ 0.0 ],
+					"project_time" : [ 400 ],
+					"rec_slot" : [ 0 ],
+					"timeline" : [ 0 ],
+					"udp_port" : [ 6006 ],
+					"active_" : [ 0 ],
+					"function_bpatcher_v3[17]::active_" : [ 1 ],
+					"function_bpatcher_v3[17]::function_" : [ 400000.0, 0.0, 1.0, 0.0, 1.0, 0, 0.0, 123055.746730901577394, 1.0, 0, 0.0, 173709.566414315224392, 0.0, 0, 0.0, "curve" ],
+					"function_bpatcher_v3[16]::active_" : [ 1 ],
+					"function_bpatcher_v3[16]::function_" : [ 400000.0, 0.0, 1.0, "curve" ],
+					"function_bpatcher_v3[15]::active_" : [ 1 ],
+					"function_bpatcher_v3[15]::function_" : [ 400000.0, 0.0, 1.0, "curve" ],
+					"function_bpatcher_v3[14]::active_" : [ 1 ],
+					"function_bpatcher_v3[14]::function_" : [ 400000.0, 0.0, 1.0, "curve" ],
+					"function_bpatcher_v3[13]::active_" : [ 1 ],
+					"function_bpatcher_v3[13]::function_" : [ 400000.0, 0.0, 1.0, "curve" ],
+					"function_bpatcher_v3[12]::active_" : [ 1 ],
+					"function_bpatcher_v3[12]::function_" : [ 400000.0, 0.0, 1.0, "curve" ],
+					"function_bpatcher_v3[11]::active_" : [ 1 ],
+					"function_bpatcher_v3[11]::function_" : [ 400000.0, 0.0, 1.0, "curve" ],
+					"function_bpatcher_v3[10]::active_" : [ 1 ],
+					"function_bpatcher_v3[10]::function_" : [ 400000.0, 0.0, 1.0, "curve" ],
+					"function_bpatcher_v3[9]::active_" : [ 1 ],
+					"function_bpatcher_v3[9]::function_" : [ 400000.0, 0.0, 1.0, "curve" ],
+					"function_bpatcher_v3[8]::active_" : [ 1 ],
+					"function_bpatcher_v3[8]::function_" : [ 400000.0, 0.0, 1.0, "curve" ],
+					"function_bpatcher_v3[7]::active_" : [ 1 ],
+					"function_bpatcher_v3[7]::function_" : [ 400000.0, 0.0, 1.0, "curve" ],
+					"function_bpatcher_v3[6]::active_" : [ 1 ],
+					"function_bpatcher_v3[6]::function_" : [ 400000.0, 0.0, 1.0, "curve" ],
+					"function_bpatcher_v3[5]::active_" : [ 1 ],
+					"function_bpatcher_v3[5]::function_" : [ 400000.0, 0.0, 1.0, "curve" ],
+					"function_bpatcher_v3[4]::active_" : [ 1 ],
+					"function_bpatcher_v3[4]::function_" : [ 400000.0, 0.0, 1.0, "curve" ],
+					"function_bpatcher_v3[3]::active_" : [ 1 ],
+					"function_bpatcher_v3[3]::function_" : [ 400000.0, 0.0, 1.0, "curve" ],
+					"function_bpatcher_v3[2]::active_" : [ 1 ],
+					"function_bpatcher_v3[2]::function_" : [ 400000.0, 0.0, 1.0, "curve" ],
+					"function_bpatcher_v3[1]::active_" : [ 1 ],
+					"function_bpatcher_v3[1]::function_" : [ 400000.0, 0.0, 1.0, "curve" ],
+					"function_bpatcher_v3::active_" : [ 1 ],
+					"function_bpatcher_v3::function_" : [ 400000.0, 0.0, 1.0, "curve" ]
+				}
+
+			}
+
+		}
+
+	}
+
+}
