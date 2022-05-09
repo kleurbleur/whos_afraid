@@ -1,5 +1,5 @@
 import threading 
-import time, datetime, json, random
+import time, datetime, json, random, sys
 
 # Set the debug level
 # 0 = no debug messages, 1 = PIR sensor, 2 = inverter messages, 3 = both
@@ -19,7 +19,23 @@ pir_sensor_active = False
 standard_mode = False
 stop_thread_slow = False
 stop_thread_pir = False
+interface_value = " No values yet to display"
 
+
+
+# Built lines for the terminal interface
+def interface():
+    global interface_value
+    # sys.stdout.write('\b' * (len(str(interface_value)) + 10))
+    # sys.stdout.write(str(interface_value))
+    # sys.stdout.flush()
+    print(f"\r{datetime.datetime.now().time()}: {interface_value}", end="\r")
+try:
+    interface_worker = threading.Thread(target=interface)
+    interface_worker.start()
+except:
+    print (f"{datetime.datetime.now().time()}: Error: unable to start interface thread. Exit.")
+    quit()
 
 #load composition pir
 print(f"{datetime.datetime.now().time()}: opening {play_pir}")
@@ -48,6 +64,7 @@ def player (thread_name, dict, last_entry, slot):
     global stop_thread_pir
     global pir_sensor_active
     global standard_mode
+    global interface_value
     playing = True
     print(f"{datetime.datetime.now().time()}: Thread {thread_name} Starting composition from {slot} and will be playing for: {last_entry}s")
     t0 = time.time()
@@ -58,7 +75,8 @@ def player (thread_name, dict, last_entry, slot):
         if stop_thread_pir or stop_thread_slow: 
                 break
         if values:
-            print(f"{datetime.datetime.now().time()}: Thread {thread_name} time: {t_check} values: {values}", end="\r",flush=True)                                         
+            # print(f"{datetime.datetime.now().time()}: Thread {thread_name} time: {t_check} values: {values}", end="\r",flush=True)   
+            interface_value = "Thread" + thread_name + "time:" + t_check + "values:" + values                                     
         if t1 >= last_entry:
             print(f"{datetime.datetime.now().time()}: Thread {thread_name} done playing {slot}")
             t0 = 0

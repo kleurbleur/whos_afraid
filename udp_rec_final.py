@@ -32,7 +32,6 @@ inv_18 = PWMOutputDevice(19)
 
 # Declare variables
 data = '' # empty var for incoming data
-y = []
 rec = 0
 
 
@@ -59,6 +58,7 @@ while True:
         decode_list = data.split()                              # byte decode the incoming list and split in two
         if decode_list[0].startswith("REC") and rec == 0:                    # if the first part of the list starts with "rec"
             print(decode_list[0],decode_list[1])                    # for debug purposes
+            y = []                                                  # the list that is used to store everything, empty or start it when this is called
             loc_file = "/home/pi/Desktop/whos_afraid/" + decode_list[1]
             t0 = time.time()                                        # start the timer
             f = open(loc_file, 'w')                           # open or new file with the chosen file in the Recorder Software
@@ -133,6 +133,7 @@ while True:
             f.write(json_dump)                                      # write it to the file opened in "rec"
             f.close()                                               # close the file  
             print("done writing file")          
+            del y                                                   # double check to delete to free up memory 
             sock.sendto(bytes("STOPPED RECODING", "utf-8"), (addr[0], UDP_PORT))
         elif decode_list[0].startswith("STOP"):                 # if the list starts with "STOP"
             print("stopping the inverters")                      
