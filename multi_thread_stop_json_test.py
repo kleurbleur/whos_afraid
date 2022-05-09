@@ -68,34 +68,6 @@ def player (thread_name, dict, last_entry, slot):
             standard_mode = False
             break
 
-# make sure that the threads are known 
-# print(f"{datetime.datetime.now().time()}: Starting slow player for setup purposes")
-# t_slow = threading.Thread(target = player, args=("t_slow", rec_dict_slow, last_time_slow, play_slow )) 
-# t_slow.start() 
-# time.sleep(0.1)
-# print(f"{datetime.datetime.now().time()}: Attempting to kill slow player")
-# stop_thread_slow = True
-# t_slow.join()
-# if t_slow.is_alive():
-#     print(f"{datetime.datetime.now().time()}: Slow player is still alive")
-# elif not t_slow.is_alive():
-#     print(f"{datetime.datetime.now().time()}: Slow player is not alive")
-# print(f"{datetime.datetime.now().time()}: Starting pir player for setup purposes")    
-# t_pir = threading.Thread(target = player, args=("t_pir", rec_dict_pir, last_time_pir, play_pir)) 
-# t_pir.start() 
-# time.sleep(0.1)
-# print(f"{datetime.datetime.now().time()}: Attempting to kill pir player")
-# stop_thread_pir = True
-# t_pir.join()
-# if t_slow.is_alive():
-#     print(f"{datetime.datetime.now().time()}: Pir player is still alive")
-# elif not t_slow.is_alive():
-#     print(f"{datetime.datetime.now().time()}: Pir player is not alive")
-# time.sleep(0.1)
-# stop_thread_slow = False
-# stop_thread_pir = False
-
-
 # the function that will spawn as a thread continiously checking the pir sensor
 def pir_input():
     global pir_sensor

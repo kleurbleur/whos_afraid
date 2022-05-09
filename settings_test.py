@@ -15,12 +15,12 @@ CEND = '\033[0m'
 
 path_settings = "settings.json"
 file_settings = open(path_settings, 'r')
-all_char = file_settings.read(20) # read file
+all_char = file_settings.read(6) # read file
 print ("all_char", all_char)
 if all_char.startswith("record"):
     print("record mode")
 elif all_char.startswith("play"):
-    print("record mode")
+    print("play mode")
 file_settings.close()
 
 
@@ -34,9 +34,10 @@ while True:
         if data.startswith("play"):                    # if the first part of the list starts with "rec"
             file_settings = open(path_settings, 'w')
             file_settings.write(data)    
+            file_settings.close()
         if data.startswith("record"):
             file_settings = open(path_settings, 'w')
             file_settings.write(data)    
-        if data.startswith("exit"):
             file_settings.close()
+        if data.startswith("exit"):
             quit()
