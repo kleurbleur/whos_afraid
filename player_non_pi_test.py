@@ -1,5 +1,5 @@
 # SET TO TRUE WHEN RUNNING ON PI
-pi = False
+pi = True
 
 
 from dis import show_code
